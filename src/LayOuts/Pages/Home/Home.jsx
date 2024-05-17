@@ -1,10 +1,13 @@
+import Slider from "./Slider";
+import Swipper from "./Swipper";
 
 const Home = () => {
-    return (
-        <div>
-            <h1>im home</h1>
-        </div>
-    );
+  return (
+    <div>
+      <Slider></Slider>
+      <Swipper></Swipper>
+    </div>
+  );
 };
 
 export default Home;
