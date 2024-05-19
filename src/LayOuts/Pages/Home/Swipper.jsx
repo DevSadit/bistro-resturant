@@ -11,14 +11,14 @@ import img2 from "../../../assets/home/slide2.jpg";
 import img3 from "../../../assets/home/slide3.jpg";
 import img4 from "../../../assets/home/slide4.jpg";
 import img5 from "../../../assets/home/slide5.jpg";
+import CompoHeading from "../../../Components/CompoHeading";
 const Swipper = () => {
   return (
     <div>
-      <div className="text-center">
-        <p className="text-orange-400">---From 11:00am to 10:00pm---</p>
-        <hr className="mt-3" />
-        <h3 className="text-3xl my-3">ORDER ONLINE</h3>
-      </div>
+      <CompoHeading
+        smHeading={`From 11:00am to 10:00pm`}
+        bigHeading={`Order Online`}
+      ></CompoHeading>
       <div className="">
         <Swiper
           slidesPerView={3}
