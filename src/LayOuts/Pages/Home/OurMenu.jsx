@@ -20,7 +20,7 @@ const OurMenu = () => {
           bigHeading={`From Our Menu`}
         ></CompoHeading>
       </div>
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid mt-10 grid-cols-2 gap-4">
         {menu.map((item) => (
           <MenuList key={item._id} item={item}></MenuList>
         ))}
