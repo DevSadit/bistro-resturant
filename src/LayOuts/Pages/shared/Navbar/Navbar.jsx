@@ -9,13 +9,15 @@ const Navbar = () => {
         </li>
       </Link>
 
-      <li>
-        <a>Item 3</a>
-      </li>
+      <Link to="/order">
+        <li>
+          <a>Our Shop</a>
+        </li>
+      </Link>
     </>
   );
   return (
-    <div className="navbar fixed top-0 z-50 bg-gray-600 bg-opacity-30">
+    <div className="navbar fixed top-0 right-0 z-50 bg-gray-600 bg-opacity-30">
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -41,7 +43,9 @@ const Navbar = () => {
             {navLinks}
           </ul>
         </div>
-        <Link to="/" className="btn btn-ghost text-xl">Bistro</Link>
+        <Link to="/" className="btn btn-ghost text-xl">
+          Bistro
+        </Link>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">{navLinks}</ul>
