@@ -1,4 +1,5 @@
 const MenuList = ({item}) => {
+  // console.log(item);
     const { name, recipe, image, price } = item;
     return (
       <div className="flex gap-x-3">
