@@ -19,8 +19,10 @@ const FoodCard = ({ item }) => {
           voluptatibus.
         </span>
       </div>
-      <div className="mb-3 text-center"> 
-        <button className="btn btn-outline mt-3">Add To Card</button>
+      <div className="mb-3 text-center">
+        <button className="btn btn-outline border-0 border-orange-500 hover:bg-orange-600 hover:border-b-0 border-b-4 mt-3">
+          Add To Card
+        </button>
       </div>
     </div>
   );

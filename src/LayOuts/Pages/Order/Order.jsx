@@ -4,13 +4,16 @@ import { Helmet } from "react-helmet-async";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import { useState } from "react";
-import FoodCard from "../shared/FoodCard/FoodCard";
 import useMenu from "../../../hooks/useMenu";
 import FoodCategory from "../shared/FoodCategory/FoodCategory";
+import { useParams } from "react-router-dom";
 const Order = () => {
-  const [tabIndex, setTabIndex] = useState(0);
-
   const [menu] = useMenu();
+  const categories = ["salads", "pizzas", "soups", "deserts", "drink"];
+  const { category } = useParams();
+  const initialIndex = categories.indexOf(category);
+  const [tabIndex, setTabIndex] = useState(initialIndex);
+  console.log(category);
   const desserts = menu.filter((item) => item.category === "dessert");
   const salads = menu.filter((item) => item.category === "salad");
   const soups = menu.filter((item) => item.category === "soup");
@@ -32,7 +35,7 @@ const Order = () => {
         <TabList className="text-center">
           <Tab>salads</Tab>
           <Tab>Pizza</Tab>
-          <Tab>Soup</Tab>
+          <Tab>Soups</Tab>
           <Tab>Desert</Tab>
           <Tab>Drink</Tab>
         </TabList>
