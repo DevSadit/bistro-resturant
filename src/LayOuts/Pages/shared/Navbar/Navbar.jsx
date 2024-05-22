@@ -1,10 +1,12 @@
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../../../provider/AuthProvider";
+import useCart from "../../../../hooks/useCart";
 
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
-  console.log(user);
+   const [cart] = useCart();
+  // console.log(user);
   const navLinks = (
     <>
       <Link to="/menu">
@@ -15,6 +17,15 @@ const Navbar = () => {
       <Link to="/order/salads">
         <li>
           <a>Our Shop</a>
+        </li>
+      </Link>
+
+      <Link>
+        <li>
+          <a>
+            Inbox
+            <div className="badge">+{cart.length}</div>
+          </a>
         </li>
       </Link>
 
@@ -66,9 +77,7 @@ const Navbar = () => {
         <ul className="menu menu-horizontal px-1">{navLinks}</ul>
       </div>
       <div className="navbar-end gap-x-5">
-        {
-          user && <p className="font-bold text-red-600">{user.displayName}</p>
-        }
+        {user && <p className="font-bold text-red-600">{user.displayName}</p>}
         <a className="btn">Button</a>
       </div>
     </div>

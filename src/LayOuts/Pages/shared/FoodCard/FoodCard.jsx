@@ -1,6 +1,61 @@
+import { useContext } from "react";
+import { AuthContext } from "../../../../provider/AuthProvider";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
+import useAxiosSecure from "../../../../hooks/useAxiosSecure";
+
 const FoodCard = ({ item }) => {
-    // console.log(item);
-    const { name, image } = item;
+  const navigate = useNavigate();
+  const { user } = useContext(AuthContext);
+  const axiosSecure = useAxiosSecure();
+  // console.log(item);
+  const { name, price, image, _id } = item;
+
+  const handleAddToCart = () => {
+    // console.log(food, user?.email);
+    const cartData = {
+      menuId: _id,
+      usrEmail: user.email,
+      name,
+      image,
+      price,
+    };
+    if (user) {
+      // send ccart item data to data base
+      axiosSecure
+        .post("/carts", cartData)
+        .then((result) => {
+          console.log(result);
+          if (result.data.insertedId) {
+            Swal.fire({
+              position: "top-end",
+              icon: "success",
+              title: `${name} has been added`,
+              showConfirmButton: false,
+              timer: 1500,
+            });
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      Swal.fire({
+        title: "Please Login First!",
+        text: "login to add the cart to your wishlist",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Login",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // send the user to the login page
+          navigate("/login");
+        }
+      });
+    }
+  };
 
   return (
     <div className="w-full overflow-hidden bg-white rounded-lg shadow-lg dark:bg-gray-800">
@@ -20,7 +75,12 @@ const FoodCard = ({ item }) => {
         </span>
       </div>
       <div className="mb-3 text-center">
-        <button className="btn btn-outline border-0 border-orange-500 hover:bg-orange-600 hover:border-b-0 border-b-4 mt-3">
+        <button
+          onClick={() => {
+            handleAddToCart(item);
+          }}
+          className="btn btn-outline border-0 border-orange-500 hover:bg-orange-600 hover:border-b-0 border-b-4 mt-3"
+        >
           Add To Card
         </button>
       </div>
