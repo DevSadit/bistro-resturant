@@ -1,14 +1,19 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import {
   loadCaptchaEnginge,
   LoadCanvasTemplate,
-  LoadCanvasTemplateNoReload,
   validateCaptcha,
 } from "react-simple-captcha";
+import { AuthContext } from "../../../provider/AuthProvider";
+import { Link, useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 
 const Login = () => {
-    const [disabled, setDisabled] = useState(true)
+  const { loginUser } = useContext(AuthContext);
+  const [disabled, setDisabled] = useState(true);
+  const navigate = useNavigate();
   const captchaRef = useRef(null);
+  // console.log(kola);
   useEffect(() => {
     loadCaptchaEnginge(6);
   }, []);
@@ -19,15 +24,22 @@ const Login = () => {
     const email = form.email.value;
     const password = form.password.value;
     console.log(email, password);
+
+    loginUser(email, password)
+      .then((result) => {
+        console.log(result.user);
+        navigate("/");
+      })
+      .catch((error) => console.log(error));
   };
 
   const handlleValidateCaptcha = () => {
     const user_captcha_value = captchaRef.current.value;
     // console.log(value);
-    if(validateCaptcha(user_captcha_value)){
-        setDisabled(false)
-    } else{
-        setDisabled(true)
+    if (validateCaptcha(user_captcha_value)) {
+      setDisabled(false);
+    } else {
+      setDisabled(true);
     }
   };
   return (
@@ -93,9 +105,21 @@ const Login = () => {
                 className="btn btn-primary"
               />
             </div>
+            <p>
+              New Here ?{" "}
+              <Link
+                className="text-blue-700 font-bold hover:underline"
+                to="/register"
+              >
+                Sign Up
+              </Link>
+            </p>
           </form>
         </div>
       </div>
+      <Helmet>
+        <title>Login | Bistro</title>
+      </Helmet>
     </div>
   );
 };

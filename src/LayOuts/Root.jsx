@@ -4,9 +4,10 @@ import Footer from "./Pages/shared/Footer/Footer";
 
 const Root = () => {
   const location = useLocation();
-  console.log(location);
-
-  const noHeaderFooter = location.pathname.includes(`login`);
+  // console.log(location);
+  const noHeaderFooter =
+    location.pathname.includes(`login`) ||
+    location.pathname.includes(`register`);
   return (
     <div className="max-w-7xl mx-auto">
       {noHeaderFooter || <Navbar></Navbar>}
