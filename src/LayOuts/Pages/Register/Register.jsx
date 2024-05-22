@@ -5,28 +5,47 @@ import { Helmet } from "react-helmet-async";
 import { Link, useNavigate } from "react-router-dom";
 
 const Register = () => {
-  const { creatUser } = useContext(AuthContext);
+  const { creatUser, updateUserProfile } = useContext(AuthContext);
   const navigate = useNavigate();
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
 
   const onSubmit = (data) => {
-    // console.log(data);
-    creatUser(data.email, data.password)
-      .then((result) => {
-        console.log(result.user);
-        navigate("/");
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
+    console.log(data);
+    creatUser(data.email, data.password).then((result) => {
+      const loggedUser = result.user;
+      //   console.log(loggedUser);
+      // if succesfully sign in user
+      updateUserProfile(data.name, data.photoUrl)
+        .then(() => {
+          //   console.log(`user profile info updated!`);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    });
+    reset();
+    navigate("/");
   };
 
   //   console.log(watch("example"));
 
+  // creatUser(data.email, data.password).then((result) => {
+  //   // console.log(result.user);
+  //   updateUserProfile(data.name, data.photoUrl)
+  //     .then(() => {
+  //       reset();
+  //       console.log(`user profile info updated`);
+  //       navigate("/");
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // });
   return (
     <div className="hero min-h-screen bg-base-200">
       <div className="hero-content flex-col lg:flex-row-reverse">
@@ -42,6 +61,20 @@ const Register = () => {
           <form onSubmit={handleSubmit(onSubmit)} className="card-body">
             <div className="form-control">
               <label className="label">
+                <span className="label-text">Name</span>
+              </label>
+              <input
+                {...register("name", { required: true })}
+                type="text"
+                placeholder="name"
+                className="input input-bordered"
+              />
+              {errors.name && (
+                <span className="text-red-600">name is required</span>
+              )}
+            </div>
+            <div className="form-control">
+              <label className="label">
                 <span className="label-text">Email</span>
               </label>
               <input
@@ -51,7 +84,7 @@ const Register = () => {
                 className="input input-bordered"
               />
               {errors.email && (
-                <span className="text-red-600">This field is required</span>
+                <span className="text-red-600">Email is required</span>
               )}
             </div>
             <div className="form-control">
@@ -59,14 +92,13 @@ const Register = () => {
                 <span className="label-text">PhotoUrl</span>
               </label>
               <input
-                {...register("text", { required: true })}
-                type="text"
+                {...register("photoUrl", { required: true })}
+                type="photoUrl"
                 placeholder="PhotoUrl"
                 className="input input-bordered"
-                required
               />
-              {errors.text && (
-                <span className="text-red-600">This field is required</span>
+              {errors.photoUrl && (
+                <span className="text-red-600">photo url is required</span>
               )}
             </div>
             <div className="form-control">
@@ -78,10 +110,9 @@ const Register = () => {
                 type="password"
                 placeholder="password"
                 className="input input-bordered"
-                required
               />
               {errors.password && (
-                <span className="text-red-600">This field is required</span>
+                <span className="text-red-600">password is required</span>
               )}
               <label className="label">
                 <a href="#" className="label-text-alt link link-hover">
@@ -96,7 +127,15 @@ const Register = () => {
                 value="sign up"
               />
             </div>
-            <p>go to <Link className="text-blue-600 font-bold hover:underline" to="/login">Login</Link></p>
+            <p>
+              go to{" "}
+              <Link
+                className="text-blue-600 font-bold hover:underline"
+                to="/login"
+              >
+                Login
+              </Link>
+            </p>
           </form>
         </div>
       </div>
