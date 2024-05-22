@@ -20,10 +20,10 @@ const Navbar = () => {
         </li>
       </Link>
 
-      <Link>
+      <Link to="/dashboard/cart">
         <li>
           <a>
-            Inbox
+            Add To Cart
             <div className="badge">+{cart.length}</div>
           </a>
         </li>
