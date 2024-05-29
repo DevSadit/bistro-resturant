@@ -15,9 +15,10 @@ import { FaShop } from "react-icons/fa6";
 import { NavLink, Outlet } from "react-router-dom";
 import useCart from "../hooks/useCart";
 import { HiOutlineMenu } from "react-icons/hi";
+import useAdmin from "../hooks/useAdmin";
 
 const Dashboard = () => {
-  const isAdmin = true;
+  const [isAdmin] = useAdmin();
   const [cart] = useCart();
   return (
     <div className="flex">
