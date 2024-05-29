@@ -3,9 +3,16 @@ import { AuthContext } from "../../../provider/AuthProvider";
 import { useForm } from "react-hook-form";
 import { Helmet } from "react-helmet-async";
 import { Link, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import useAxiosPublic from "../../../hooks/useAxiosPublic";
+import { FaGoogle } from "react-icons/fa";
+import SocialLogin from "../../../Components/SocialLogin";
 
 const Register = () => {
-  const { creatUser, updateUserProfile } = useContext(AuthContext);
+  
+  const axiosPublic = useAxiosPublic();
+  const { creatUser, updateUserProfile, } =
+    useContext(AuthContext);
   const navigate = useNavigate();
   const {
     register,
@@ -15,37 +22,36 @@ const Register = () => {
   } = useForm();
 
   const onSubmit = (data) => {
-    console.log(data);
     creatUser(data.email, data.password).then((result) => {
       const loggedUser = result.user;
-      //   console.log(loggedUser);
+      // console.log(loggedUser);
       // if succesfully sign in user
-      updateUserProfile(data.name, data.photoUrl)
-        .then(() => {
-          //   console.log(`user profile info updated!`);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      updateUserProfile(data.name, data.photoUrl);
+
+      const userInfo = {
+        name: data.name,
+        email: data.email,
+      };
+      axiosPublic.post("/users", userInfo).then((res) => {
+        if (res.data.inseredId) {
+          console.log(`user added to data base`);
+          reset();
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "You Account Created Succesfuly",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
+      });
+
+      // console.log(`user profile info updated!`);
+
+      navigate("/");
     });
-    reset();
-    navigate("/");
   };
 
-  //   console.log(watch("example"));
-
-  // creatUser(data.email, data.password).then((result) => {
-  //   // console.log(result.user);
-  //   updateUserProfile(data.name, data.photoUrl)
-  //     .then(() => {
-  //       reset();
-  //       console.log(`user profile info updated`);
-  //       navigate("/");
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // });
   return (
     <div className="hero min-h-screen bg-base-200">
       <div className="hero-content flex-col lg:flex-row-reverse">
@@ -127,6 +133,7 @@ const Register = () => {
                 value="sign up"
               />
             </div>
+<SocialLogin></SocialLogin>
             <p>
               go to{" "}
               <Link

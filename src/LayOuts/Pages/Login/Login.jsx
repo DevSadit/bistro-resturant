@@ -7,6 +7,7 @@ import {
 import { AuthContext } from "../../../provider/AuthProvider";
 import { Link, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
+import SocialLogin from "../../../Components/SocialLogin";
 
 const Login = () => {
   const { loginUser } = useContext(AuthContext);
@@ -105,6 +106,7 @@ const Login = () => {
                 className="btn btn-primary"
               />
             </div>
+            <SocialLogin></SocialLogin>
             <p>
               New Here ?{" "}
               <Link
